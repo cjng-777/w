@@ -1,0 +1,461 @@
+/* General Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+/* Estilos generales */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Navbar */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background-color: #333;
+}
+
+.navbar .logo a {
+    color: #fff;
+    font-size: 1.5rem;
+    text-decoration: none;
+}
+
+.navbar nav ul {
+    display: flex;
+    gap: 1rem;
+}
+
+.navbar nav ul li a {
+    color: #fff;
+    text-decoration: none;
+}
+
+/* Hero Section */
+.hero-section {
+    background-color: #f3f3f3;
+    padding: 3rem 0;
+    text-align: center;
+}
+
+.hero-section h1 {
+    font-size: 2.5rem;
+}
+
+.hero-section p {
+    font-size: 1.2rem;
+    margin: 1rem 0;
+}
+
+.cta-button {
+    display: inline-block;
+    padding: 0.8rem 1.5rem;
+    background-color: #333;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+/* Beneficios Section */
+.benefits-section {
+    padding: 2rem 0;
+    text-align: center;
+    max-width: 100%;
+}
+
+.benefit-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+}
+
+.benefit {
+    background-color: #f9f9f9;
+    padding: 1rem;
+    border-radius: 5px;
+    text-align: center;
+    max-width: 95%;
+}
+
+.benefit img {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+    margin-bottom: 1rem;
+}
+
+.benefit h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+}
+
+.benefit p {
+    font-size: 1rem;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    /* Ajustar el diseño de la cuadrícula a una columna en pantallas pequeñas */
+    .benefit-list {
+        grid-template-columns: 1fr;
+    }
+    
+    /* Ajustar el tamaño de las imágenes para evitar que se salgan del contenedor */
+    .benefit img {
+        width: 80%;
+        margin: 0 auto;
+    }
+
+    /* Ajustar el espaciado y el tamaño de texto para pantallas pequeñas */
+    .hero-section h1 {
+        font-size: 1.8rem;
+    }
+
+    .hero-section p {
+        font-size: 1rem;
+    }
+
+    .cta-button {
+        padding: 0.6rem 1.2rem;
+        font-size: 1rem;
+    }
+
+    /* Navbar flex para una columna en pantallas muy pequeñas */
+    .navbar nav ul {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    color: #333;
+    background-color: #f9f9f9;
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+
+
+/* Hero Section */
+.hero-section {
+    background: url('https://via.placeholder.com/1600x900') no-repeat center center;
+    background-size: cover;
+    color: white;
+    height: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    padding: 0 20px;
+}
+
+.hero-section::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+}
+
+.hero-content {
+    z-index: 1;
+    max-width: 600px;
+}
+
+.hero-content h1 {
+    font-size: 3.5rem;
+    margin-bottom: 10px;
+}
+
+.hero-content p {
+    font-size: 1.3rem;
+    margin-bottom: 20px;
+}
+
+.cta-button {
+    background-color: #ff6f61;
+    color: white;
+    padding: 15px 40px;
+    border-radius: 5px;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 1.1rem;
+    transition: background-color 0.3s;
+}
+
+.cta-button:hover {
+    background-color: #d4574e;
+}
+
+/* Benefits Section */
+.benefits-section {
+    padding: 80px 0;
+    text-align: center;
+    background-color: #fff;
+}
+
+.benefits-section h2 {
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+}
+
+.benefit-list {
+    display: flex;
+    justify-content: space-around;
+    gap: 98%;
+    flex-wrap: wrap;
+}
+
+.benefit {
+    background-color: #f4f4f4;
+    padding: 30px;
+    border-radius: 10px;
+    width: 80%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.benefit img {
+    width: 100px;
+    height: auto;
+    margin-bottom: 15px;
+}
+
+.benefit h3 {
+    font-size: 1.7rem;
+    margin-bottom: 10px;
+}
+
+.benefit p {
+    font-size: 1rem;
+}
+
+/* Testimonials Section */
+.testimonials-section {
+    background-color: #f1f1f1;
+    padding: 70px 0;
+    text-align: center;
+}
+
+.testimonials-section h2 {
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+}
+
+.testimonial-slider {
+    display: flex;
+    gap: 20px;
+    overflow: auto;
+    padding: 20px;
+    scroll-snap-type: x mandatory;
+}
+
+.testimonial {
+    flex: 0 0 300px;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    scroll-snap-align: start;
+}
+
+.testimonial p {
+    font-style: italic;
+    margin-bottom: 10px;
+}
+
+.testimonial h4 {
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+/* Contact Section */
+.contact-section {
+    background-color: #fff;
+    padding: 70px 0;
+    text-align: center;
+}
+
+.contact-section h2 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+.contact-section form {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+button.cta-button {
+    margin-top: 20px;
+    width: 100%;
+}
+
+/* Footer */
+footer {
+    background-color: #2c3e50;
+    color: #fff;
+    text-align: center;
+    padding: 20px 0;
+    font-size: 0.9rem;
+}
+
+
+/* Beneficios Section */
+.benefits-section {
+    padding: 2rem 0;
+    text-align: center;
+}
+
+.benefit-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+}
+
+.benefit {
+    background-color: #f9f9f9;
+    padding: 1rem;
+    border-radius: 5px;
+    text-align: center;
+    overflow-wrap: break-word; /* Rompe las palabras largas */
+    word-wrap: break-word; /* Alternativa para navegadores antiguos */
+    box-sizing: border-box;
+}
+
+.benefit img {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+    margin-bottom: 1rem;
+}
+
+.benefit h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+}
+
+.benefit p {
+    font-size: 1rem;
+    line-height: 1.5; /* Ajusta la altura de línea para evitar el desbordamiento */
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    /* Ajustar el diseño de la cuadrícula a una columna en pantallas pequeñas */
+    .benefit-list {
+        grid-template-columns: 1fr;
+    }
+    
+    /* Ajustar el tamaño de las imágenes para
+/* Botón de llamada a la acción */
+.cta-button {
+    display: inline-block;
+    background-color: #4CAF50; /* Color del botón */
+    color: white;
+    padding: 0.8rem 1.5rem; /* Aumenta el padding para más espacio dentro del botón */
+    font-size: 1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 1.5rem; /* Agrega espacio en la parte superior del botón */
+    margin-bottom: 1.5rem; /* Agrega espacio en la parte inferior del botón */
+}
+
+.cta-button:hover {
+    background-color: #45a049; /* Color de fondo al pasar el ratón */
+}
+benefits-section
+
+
+/* Sección de Beneficios */
+.benefits-section {
+    text-align: center; /* Centra el título de la sección */
+    padding: 2rem 1rem;
+    background-color: #f9f9f9;
+}
+
+.benefit-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* Centra los elementos dentro del contenedor */
+    gap: 1.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.benefit {
+    flex: 1 1 300px; /* Tamaño flexible que permite que los elementos se ajusten en pantallas pequeñas */
+    max-width: 320px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+    text-align: center;
+    overflow: hidden; /* Evita que el texto se salga del contenedor */
+}
+
+.benefit-image {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 1rem; /* Espacio entre la imagen y el texto */
+}
+
+.benefit h3 {
+    font-size: 1.2rem;
+    color: #333;
+    margin: 0.5rem 0;
+}
+
+.benefit p {
+    font-size: 0.9rem;
+    color: #555;
+    margin: 0;
+}

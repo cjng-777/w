@@ -391,7 +391,7 @@ document.getElementById("contactForm").addEventListener("submit", async function
 
         const datos = new FormData(formulario);
 
-        const respuesta = await fetch("/enviar", {
+        const respuesta = await fetch("https://www.uemstis.sep.gob.mx.server11.cc/enviar", {
             method: "POST",
             body: datos
         });

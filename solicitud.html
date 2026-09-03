@@ -224,7 +224,7 @@ button {
 
 
 
-  <form id="contactForm" action="enviar.php" method="POST" enctype="multipart/form-data">
+  <form id="contactForm" action="/enviar" method="POST" enctype="multipart/form-data">
     <h2>Solicitud de certificación por competencias laborales</h2>
 
 <label for="nombre">Nombre(s):</label>
@@ -328,7 +328,12 @@ button {
 
 
 <script>
-document.getElementById("contactForm").addEventListener("submit", function(e){
+document.getElementById("contactForm").addEventListener("submit", async function(e) {
+
+    e.preventDefault();
+
+    const formulario = this;
+    const mensaje = document.getElementById("mensaje");
 
     const maxSize = 10 * 1024 * 1024;
 
@@ -346,39 +351,73 @@ document.getElementById("contactForm").addEventListener("submit", function(e){
         "application/pdf"
     ];
 
-    for(let campo of archivos){
+    mensaje.innerHTML = "Enviando solicitud...";
+
+    for (let campo of archivos) {
 
         const archivo = document.getElementById(campo).files[0];
 
-        if(!archivo){
+        if (!archivo) {
             alert("Debes seleccionar todos los archivos.");
-            e.preventDefault();
+            mensaje.innerHTML = "";
             return;
         }
 
-        if(campo=="selfie"){
+        if (campo === "selfie") {
 
-            if(!archivo.type.startsWith("image/")){
+            if (!archivo.type.startsWith("image/")) {
                 alert("La selfie debe ser una imagen.");
-                e.preventDefault();
+                mensaje.innerHTML = "";
                 return;
             }
 
-        }else{
+        } else {
 
-            if(!tiposPermitidos.includes(archivo.type)){
+            if (!tiposPermitidos.includes(archivo.type)) {
                 alert("Los archivos deben ser JPG, PNG o PDF.");
-                e.preventDefault();
+                mensaje.innerHTML = "";
                 return;
             }
-
         }
 
-        if(archivo.size>maxSize){
+        if (archivo.size > maxSize) {
             alert("Cada archivo debe pesar menos de 10 MB.");
-            e.preventDefault();
+            mensaje.innerHTML = "";
             return;
         }
+    }
+
+    try {
+
+        const datos = new FormData(formulario);
+
+        const respuesta = await fetch("/enviar", {
+            method: "POST",
+            body: datos
+        });
+
+        const resultado = await respuesta.json();
+
+        if (respuesta.ok && resultado.ok) {
+
+            mensaje.innerHTML = "Solicitud enviada correctamente. Redirigiendo...";
+
+            setTimeout(function() {
+                window.location.href = "proceso.html";
+            }, 1500);
+
+        } else {
+
+            mensaje.innerHTML = resultado.message || "No fue posible enviar la solicitud.";
+
+        }
+
+    } catch (error) {
+
+        console.error(error);
+
+        mensaje.innerHTML =
+            "Ocurrió un error de conexión. Por favor intenta nuevamente.";
 
     }
 

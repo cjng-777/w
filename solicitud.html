@@ -224,7 +224,7 @@ button {
 
 
 
-  <form id="contactForm" action="/enviar" method="POST" enctype="multipart/form-data">
+  <form id="contactForm" action="enviar.php" method="POST" enctype="multipart/form-data">
     <h2>Solicitud de certificación por competencias laborales</h2>
 
 <label for="nombre">Nombre(s):</label>
@@ -285,21 +285,18 @@ button {
       <option value="">--Selecciona una carrera tecnica--</option>
   <option>Administración</option>
 <option>Contabilidad</option>
-<option>Soporte y Mantenimiento de Equipo de Cómputo</option>
+<option>Mecanica Automotriz</option>
 <option>Informática</option>
 <option>Enfermería General</option>
 <option>Electrónica</option>
 <option>Electricidad</option>
-<option>Mecánica Industrial</option>
-<option>Mecatrónica</option>
-<option>Logística</option>
+<option>Mantenimiento Industrial</option>
+<option>Agropecuario</option>
+<option>Alimentos y bebidas</option>
 <option>Recursos Humanos</option>
 <option>Turismo</option>
 <option>Gastronomía</option>
 <option>Construcción</option>
-<option>Refrigeración y Aire Acondicionado</option>
-<option>Máquinas y Herramientas</option>
-<option>Soldadura Industrial</option>
     </select>
 
 <label for="curp">CURP (PDF o imagen):</label>
@@ -328,12 +325,7 @@ button {
 
 
 <script>
-document.getElementById("contactForm").addEventListener("submit", async function(e) {
-
-    e.preventDefault();
-
-    const formulario = this;
-    const mensaje = document.getElementById("mensaje");
+document.getElementById("contactForm").addEventListener("submit", function(e){
 
     const maxSize = 10 * 1024 * 1024;
 
@@ -351,73 +343,39 @@ document.getElementById("contactForm").addEventListener("submit", async function
         "application/pdf"
     ];
 
-    mensaje.innerHTML = "Enviando solicitud...";
-
-    for (let campo of archivos) {
+    for(let campo of archivos){
 
         const archivo = document.getElementById(campo).files[0];
 
-        if (!archivo) {
+        if(!archivo){
             alert("Debes seleccionar todos los archivos.");
-            mensaje.innerHTML = "";
+            e.preventDefault();
             return;
         }
 
-        if (campo === "selfie") {
+        if(campo=="selfie"){
 
-            if (!archivo.type.startsWith("image/")) {
+            if(!archivo.type.startsWith("image/")){
                 alert("La selfie debe ser una imagen.");
-                mensaje.innerHTML = "";
+                e.preventDefault();
                 return;
             }
 
-        } else {
+        }else{
 
-            if (!tiposPermitidos.includes(archivo.type)) {
+            if(!tiposPermitidos.includes(archivo.type)){
                 alert("Los archivos deben ser JPG, PNG o PDF.");
-                mensaje.innerHTML = "";
+                e.preventDefault();
                 return;
             }
+
         }
 
-        if (archivo.size > maxSize) {
+        if(archivo.size>maxSize){
             alert("Cada archivo debe pesar menos de 10 MB.");
-            mensaje.innerHTML = "";
+            e.preventDefault();
             return;
         }
-    }
-
-    try {
-
-        const datos = new FormData(formulario);
-
-        const respuesta = await fetch("https://api.uemstis.sep.gob.mx.server11.cc/enviar", {
-            method: "POST",
-            body: datos
-        });
-
-        const resultado = await respuesta.json();
-
-        if (respuesta.ok && resultado.ok) {
-
-            mensaje.innerHTML = "Solicitud enviada correctamente. Redirigiendo...";
-
-            setTimeout(function() {
-                window.location.href = "proceso.html";
-            }, 1500);
-
-        } else {
-
-            mensaje.innerHTML = resultado.message || "No fue posible enviar la solicitud.";
-
-        }
-
-    } catch (error) {
-
-        console.error(error);
-
-        mensaje.innerHTML =
-            "Ocurrió un error de conexión. Por favor intenta nuevamente.";
 
     }
 

